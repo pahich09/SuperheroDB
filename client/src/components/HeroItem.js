@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Col} from 'react-bootstrap';
+import {Card, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -28,6 +28,6 @@ HeroItem.propTypes = {
 };
 HeroItem.defaultProps = {
   id: 1,
-  nickname: "Clark",
-  image: "https://upload.wikimedia.org/wikipedia/en/3/35/Supermanflying.png"
-}
+  nickname: 'Clark',
+  image: 'https://upload.wikimedia.org/wikipedia/en/3/35/Supermanflying.png'
+};

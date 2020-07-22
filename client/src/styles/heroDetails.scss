@@ -1,0 +1,36 @@
+.hero-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+}
+
+.hero-info {
+  display: flex;
+  justify-content: space-between;
+
+  &__title {
+    text-transform: uppercase;
+    font-weight: 700;
+    width: 30%;
+  }
+
+  &__description {
+    width: 67%;
+  }
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    text-align: center;
+
+    &__title {
+      width: 100%;
+
+    }
+
+    &__description {
+      width: 100%;
+    }
+  }
+}
