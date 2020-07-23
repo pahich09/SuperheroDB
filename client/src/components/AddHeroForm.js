@@ -1,13 +1,14 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {Alert, Button, Form, Spinner} from 'react-bootstrap';
 import {heroModel} from '../heroModel';
 import {httpHelper} from '../helpers/httpHelper';
-import {HeroContext} from '../context';
 
 
 export const AddHeroForm = ({hero, toggleEditHandler}) => {
 
+  const history = useHistory();
   const [files, setFiles] = useState([]);
   const [imageNames, setImageNames] = useState(hero.images || []);
   const [formData, setFormData] = useState(hero);
@@ -38,21 +39,21 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
     if (!hero._id) {
       try {
         await httpHelper('/api/add', 'POST', data);
+        setFormData({});
+        setFiles([]);
+        history.push('/');
       } catch (e) {
         console.log(e);
       }
     } else {
       try {
         const {data: {message}} = await httpHelper(`/api/${hero._id}`, 'PUT', data);
+        toggleEditHandler();
         console.log(message);
       } catch (e) {
         console.log(e);
       }
     }
-
-    setFormData({});
-    setFiles([]);
-    toggleEditHandler();
     setFormLoading(false);
   };
 

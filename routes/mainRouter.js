@@ -57,7 +57,8 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-
+    await Hero.deleteOne({_id: req.params.id});
+    res.send({message: 'hero deleted'});
   } catch (e) {
     console.log(e);
     res.status(500).json({message: 'Server error'});
