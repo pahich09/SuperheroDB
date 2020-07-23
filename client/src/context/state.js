@@ -1,5 +1,5 @@
 import React, {useReducer} from 'react';
-import {HeroContext} from './context';
+import {HeroContext} from './index';
 import {
   FETCH_DATA_ERROR,
   FETCH_DATA_START,
@@ -7,13 +7,11 @@ import {
   SET_LOADING,
 } from './actionTypes';
 import {HeroReducer} from './reducer';
-
-
-const HttpHelper = ()=>{}
+import {httpHelper} from '../helpers/httpHelper';
 
 export const HeroState = ({children}) => {
   const initialState = {
-    heroes: [1,2,3],
+    heroes: [],
     loading: false,
     error: null,
   };
@@ -25,7 +23,7 @@ export const HeroState = ({children}) => {
       type: FETCH_DATA_START,
     });
     try {
-      const data = await HttpHelper();
+      const data = await httpHelper('/api');
       dispatch({
         type: FETCH_DATA_SUCCESS,
         payload: data

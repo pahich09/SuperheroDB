@@ -2,14 +2,10 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Alert, Button, Form} from 'react-bootstrap';
 import {heroModel} from '../heroModel';
+import {httpHelper} from '../helpers/httpHelper';
 
 
 export const AddHeroForm = ({hero, toggleEditHandler}) => {
-  if(!hero.nickname){
-    console.log('empty');
-  } else {
-    console.log(hero.nickname);
-  }
 
   const [files, setFiles] = useState([]);
   const [imageNames, setImageNames] = useState(hero.images || []);
@@ -31,22 +27,20 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
     setImageNames(imageNames.filter(el => el !== image));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const data = new FormData(e.target);
     data.append('imageNames', JSON.stringify(imageNames));
 
+    if(!hero._id){
+      await httpHelper('/api/add', 'POST', data)
+    } else {
+      await httpHelper(`/api/${hero._id}`, 'PUT', data)
+    }
+
     setFormData({});
     setFiles([]);
     toggleEditHandler();
-
-//temporary
-    fetch(`/api/add`, {
-      method: 'POST',
-      body: data,
-    });
-    //
-
   };
 
   const mapControls = data => data.map(el => {

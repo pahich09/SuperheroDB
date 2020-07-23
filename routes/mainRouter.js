@@ -5,8 +5,19 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const heroList = await Hero.find().limit(1);
+    const heroList = await Hero.find().limit();
     res.send(heroList);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({message: 'Server error'});
+  }
+});
+
+
+router.get('/hero/:id', async (req, res) => {
+  try {
+    const hero = await Hero.findOne({_id: req.params.id});
+    res.send(hero);
   } catch (e) {
     console.log(e);
     res.status(500).json({message: 'Server error'});

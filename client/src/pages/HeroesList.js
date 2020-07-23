@@ -1,23 +1,29 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext, useEffect} from 'react';
 import {Row} from 'react-bootstrap';
+import {HeroContext} from '../context';
 import {HeroItem} from '../components/HeroItem';
 import {HeroPagination} from '../components/HeroPagination';
-import {HeroContext} from '../context/context';
 
 export const HeroesList = () => {
-  const state = useContext(HeroContext);
-  console.log(state);
+  const {fetchData, heroes, loading} = useContext(HeroContext);
+
+  const fetch = useCallback(fetchData, []);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
+
+  const mapHeroItem = data => data.map(hero => {
+    const {nickname, images, _id} = hero;
+    return (
+      <HeroItem key={_id} {...{nickname, _id, image: images[0]}}/>
+    );
+  });
+
   return (
     <>
       <Row>
-        <HeroItem/>
-        <HeroItem/>
-        <HeroItem/>
-        <HeroItem/>
-        <HeroItem/>
-        <HeroItem/>
-        <HeroItem/>
-        <HeroItem/>
+        {!!heroes.length && mapHeroItem(heroes)}
       </Row>
       <Row className="pagination-wrap">
         <HeroPagination/>

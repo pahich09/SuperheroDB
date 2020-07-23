@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Image, ListGroup, Row} from 'react-bootstrap';
+import {useParams} from 'react-router-dom';
 import {AddHeroForm} from '../components/AddHeroForm';
 import {heroModel} from '../heroModel';
+import {httpHelper} from '../helpers/httpHelper';
 
 
 export const HeroDetails = () => {
 
+  const {id} = useParams();
+  const [hero, setHero] = useState({});
   const [editMode, setEditMode] = useState(false);
 
   const toggleEditHandler = () => {
@@ -13,16 +17,14 @@ export const HeroDetails = () => {
   };
 
 
-  const [hero, setHero] = useState([]);
-
-//
   useEffect(() => {
+    async function fetch() {
+      const response = await httpHelper(`/api/hero/${id}`);
+      setHero(response);
+    }
 
-    fetch('/api').then(res => res.json()).then(res => {
-      setHero(res[0]);
-    });
-  }, []);
-//
+    fetch();
+  }, [id, editMode]);
 
 
   const mapHeroInfo = data => data.map(el => {
