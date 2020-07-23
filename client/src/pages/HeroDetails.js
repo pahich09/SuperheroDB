@@ -1,20 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Col, Image, ListGroup, Row} from 'react-bootstrap';
 
-export const HeroDetails = () => {
-  const propshero = {
-    nickname: 'Superman',
-    real_name: 'Clark Kent',
-    origin_description: 'he was born Kal-El on the planet Krypton, before being' +
-      ' rocketed to',
+const propshero = {
+  nickname: 'Superman',
+  real_name: 'Clark Kent',
+  origin_description: 'he was born Kal-El on the planet Krypton, before being' +
+    ' rocketed to',
 
-    superpowers: `solar energy absorption and healing factor, solar flare and heat vision,
+  superpowers: `solar energy absorption and healing factor, solar flare and heat vision,
     solar invulnerability, flight…`,
-    catch_phrase: `“ Look, up in the sky, it's a bird, it's a plane, it's Superman!”
+  catch_phrase: `“ Look, up in the sky, it's a bird, it's a plane, it's Superman!”
 Images: a set of images of the superhero`,
-    image: 'https://upload.wikimedia.org/wikipedia/en/3/35/Supermanflying.png'
-  };
+  image: 'https://upload.wikimedia.org/wikipedia/en/3/35/Supermanflying.png'
+};
+
+export const HeroDetails = () => {
+
+  const [editMode, setEditMode] = useState(false);
+
   const hero = Object.entries(propshero);
+
+  const toggleEditHandler = () => {
+    setEditMode(!editMode);
+  };
 
   const mapHeroInfo = data => data.map(el => {
     if (el[0] === 'image' || el[0] === 'id') {
@@ -34,7 +42,13 @@ Images: a set of images of the superhero`,
     );
   });
 
-
+  if (editMode) {
+    return (<Row>
+      <Button variant="outline-success"
+              onClick={toggleEditHandler}
+      >Save</Button>
+    </Row>);
+  }
   return (
     <Row>
       <Col xs={12} sm={6} md={4} className="hero-image">
@@ -46,6 +60,7 @@ Images: a set of images of the superhero`,
         <Button
           variant="outline-secondary"
           className="hero-edit"
+          onClick={toggleEditHandler}
         >
           Edit profile
         </Button>

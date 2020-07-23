@@ -4,6 +4,11 @@ const router = Router();
 const Hero = require('../models/Hero.model');
 
 
+
+// const multer  = require('multer')
+// const upload = multer({ dest: 'uploads/' })
+
+
 router.get('/', async (req, res) => {
   try {
     const heroList = await Hero.find().limit(1);
@@ -30,6 +35,8 @@ router.post('/add', async (req, res) => {
       catch_phrase,
       images
     });
+
+    console.log("file",req.files);
 
 
     // await hero.save();
