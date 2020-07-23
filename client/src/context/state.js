@@ -30,11 +30,15 @@ export const HeroState = ({children}) => {
       });
     } catch (e) {
       console.error(e);
-      dispatch({
-        type: FETCH_DATA_ERROR,
-        payload: e
-      });
+      setError(e)
     }
+  };
+
+  const setError = err => {
+    dispatch({
+      type: FETCH_DATA_ERROR,
+      payload: err
+    });
   };
 
   const toggleLoading = loading => {
@@ -46,7 +50,7 @@ export const HeroState = ({children}) => {
 
   return (
     <HeroContext.Provider
-      value={{...state, fetchData, toggleLoading}}>
+      value={{...state, fetchData, toggleLoading, setError}}>
       {children}
     </HeroContext.Provider>
   );

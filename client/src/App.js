@@ -5,25 +5,33 @@ import {Container} from 'react-bootstrap';
 import {HeroesList} from './pages/HeroesList';
 import {HeroDetails} from './pages/HeroDetails';
 import {CreateHero} from './pages/CreateHero';
-import {PageNotFound} from './pages/PageNotFound';
+import {ErrorPage} from './pages/ErrorPage';
 import {NavBar} from './components/NavBar';
 import './styles/index.scss';
 import {Loader} from './components/Loader';
 import {HeroContext} from './context';
 
 const App = () => {
-
+  const {error, setError} = useContext(HeroContext);
 
   return (
     <Router>
       <NavBar/>
       <Container>
-        <Switch>
-          <Route path='/' exact component={HeroesList}/>
-          <Route path='/hero/:id' component={HeroDetails}/>
-          <Route path='/create' component={CreateHero}/>
-          <Route component={PageNotFound}/>
-        </Switch>
+        {
+          error
+            ?
+            <ErrorPage {...{error, setError}}/>
+            : (
+              <Switch>
+                <Route path='/' exact component={HeroesList}/>
+                <Route path='/hero/:id' component={HeroDetails}/>
+                <Route path='/create' component={CreateHero}/>
+                <Route>
+                  <ErrorPage/>
+                </Route>
+              </Switch>)
+        }
       </Container>
     </Router>
   );
