@@ -5,6 +5,11 @@ import {heroModel} from '../heroModel';
 
 
 export const AddHeroForm = ({hero, toggleEditHandler}) => {
+  if(!hero.nickname){
+    console.log('empty');
+  } else {
+    console.log(hero.nickname);
+  }
 
   const [files, setFiles] = useState([]);
   const [imageNames, setImageNames] = useState(hero.images || []);
