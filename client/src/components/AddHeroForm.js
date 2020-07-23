@@ -51,7 +51,7 @@ export const AddHeroForm = () => {
   });
 
   return (
-    <Form onSubmit={handleSubmit} >
+    <Form onSubmit={handleSubmit}>
       {mapControls(heroModel)}
       <Button variant="success" type="submit">
         Save hero

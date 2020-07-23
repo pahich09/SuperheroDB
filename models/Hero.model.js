@@ -6,7 +6,7 @@ const schema = new Schema({
   origin_description: {type: String, required: true},
   superpowers: {type: String},
   catch_phrase: {type: String},
-  images: {type: String},
+  images: {type: [String]},
 });
 
 module.exports = model('Hero', schema);
