@@ -18,7 +18,8 @@ const PORT = config.get('port') || 5000;
     await mongoose.connect(config.get('mongoUri'), {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true
+      useCreateIndex: true,
+      useFindAndModify: false
     });
 
     app.listen(PORT, () => {

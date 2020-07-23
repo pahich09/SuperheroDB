@@ -1,25 +1,51 @@
 import React, {useState} from 'react';
-import {Button, Form} from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import {Alert, Button, Form} from 'react-bootstrap';
 import {heroModel} from '../heroModel';
 
 
-export const AddHeroForm = () => {
+export const AddHeroForm = ({hero, toggleEditHandler}) => {
 
   const [files, setFiles] = useState([]);
+  const [imageNames, setImageNames] = useState(hero.images || []);
+  const [formData, setFormData] = useState(hero);
+
+  const setFormDataHandler = e => {
+    setFormData({...formData, [e.target.name]: e.target.value});
+  };
+
+  const setFilesHandler = e => {
+    const files = [...e.target.files];
+    setFiles(files);
+  };
+
+  const removeImageHandler = image => {
+    if (image.name) {
+      setFiles(files.filter(f => f.name !== image.name));
+    }
+    setImageNames(imageNames.filter(el => el !== image));
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
     const data = new FormData(e.target);
+    data.append('imageNames', JSON.stringify(imageNames));
+
+    setFormData({});
+    setFiles([]);
+    toggleEditHandler();
 
 //temporary
-    fetch('/api/add', {
+    fetch(`/api/add`, {
       method: 'POST',
       body: data,
     });
+    //
+
   };
 
   const mapControls = data => data.map(el => {
-    let item = el.replace(/_/g, ' ');
+    const item = el.replace(/_/g, ' ');
 
     return (
       <Form.Group key={el}>
@@ -30,18 +56,22 @@ export const AddHeroForm = () => {
             <Form.File
               id={el}
               name={el}
-              label={files.length ? [...files].map(el => el.name + '; ') : 'Choose' +
-                ' image'}
+              label={
+                files.length || imageNames.length
+                  ? `${files.length + imageNames.length} images added`
+                  : 'Choose image'}
               data-browse="Add image"
               custom
               multiple
-              onChange={e => setFiles(e.target.files)}
+              onChange={setFilesHandler}
             />
           </div>
           :
           <Form.Control id={el}
                         type="text"
                         name={el}
+                        value={formData[el] || ''}
+                        onChange={setFormDataHandler}
                         placeholder={`Enter ${item}`}
 
           />
@@ -53,9 +83,41 @@ export const AddHeroForm = () => {
   return (
     <Form onSubmit={handleSubmit}>
       {mapControls(heroModel)}
-      <Button variant="success" type="submit">
+
+      {
+        (!!imageNames.length || !!files.length) && (
+          <Alert variant="success">
+            {[...imageNames, ...files].map((el, i) => (
+              <div key={i.toString()}>
+                {el.name || el}
+                <span
+                  className="delete-icon"
+                  onClick={() => removeImageHandler(el)}
+                >
+                &times;
+                </span>
+              </div>
+            ))}
+          </Alert>
+        )
+      }
+
+      <Button variant="success"
+              type="submit"
+      >
         Save hero
       </Button>
     </Form>
   );
+};
+
+AddHeroForm.propTypes = {
+  hero: PropTypes.object,
+  toggleEditHandler: PropTypes.func
+};
+
+AddHeroForm.defaultProps = {
+  hero: {},
+  toggleEditHandler: () => {
+  }
 };

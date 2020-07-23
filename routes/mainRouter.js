@@ -1,12 +1,7 @@
 const {Router} = require('express');
-const router = Router();
-
 const Hero = require('../models/Hero.model');
 
-
-// const multer  = require('multer')
-// const upload = multer({ dest: 'uploads/' })
-
+const router = Router();
 
 router.get('/', async (req, res) => {
   try {
@@ -21,22 +16,11 @@ router.get('/', async (req, res) => {
 
 router.post('/add', async (req, res) => {
   try {
-    const {
-      nickname, real_name, origin_description,
-      superpowers, catch_phrase
-    } = req.body;
-    const images = req.files.map(el=>el.filename)
+    const images = req.files.map(el => el.filename);
 
-    const hero = new Hero({
-      nickname,
-      real_name,
-      origin_description,
-      superpowers,
-      catch_phrase,
-      images
-    });
-
+    const hero = new Hero({...req.body, images});
     await hero.save();
+
     res.json({message: 'Superhero was added'});
 
   } catch (e) {
@@ -47,7 +31,12 @@ router.post('/add', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
+    const images = req.files.map(el => el.filename);
 
+    await Hero.findOneAndUpdate({_id: req.params.id},
+      {...req.body, images: [...JSON.parse(req.body.imageNames), ...images]});
+
+    res.json({message: 'Superhero was updated'});
 
   } catch (e) {
     console.log(e);

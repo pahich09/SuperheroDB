@@ -1,59 +1,62 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Col, Image, ListGroup, Row} from 'react-bootstrap';
+import {AddHeroForm} from '../components/AddHeroForm';
+import {heroModel} from '../heroModel';
 
-const propshero = {
-  nickname: 'Superman',
-  real_name: 'Clark Kent',
-  origin_description: 'he was born Kal-El on the planet Krypton, before being' +
-    ' rocketed to',
-
-  superpowers: `solar energy absorption and healing factor, solar flare and heat vision,
-    solar invulnerability, flight…`,
-  catch_phrase: `“ Look, up in the sky, it's a bird, it's a plane, it's Superman!”
-Images: a set of images of the superhero`,
-  image: 'https://upload.wikimedia.org/wikipedia/en/3/35/Supermanflying.png'
-};
 
 export const HeroDetails = () => {
 
   const [editMode, setEditMode] = useState(false);
 
-  const hero = Object.entries(propshero);
-
   const toggleEditHandler = () => {
     setEditMode(!editMode);
   };
 
+
+  const [hero, setHero] = useState([]);
+
+//
+  useEffect(() => {
+
+    fetch('/api').then(res => res.json()).then(res => {
+      setHero(res[0]);
+    });
+  }, []);
+//
+
+
   const mapHeroInfo = data => data.map(el => {
-    if (el[0] === 'image' || el[0] === 'id') {
+    if (el === 'images') {
       return null;
     }
     return (
       <ListGroup.Item className="hero-info"
-                      key={el[0]}
+                      key={el}
       >
         <span className="hero-info__title">
-          {el[0].replace(/_/g, ' ')}
+          {el.replace(/_/g, ' ')}
         </span>
         <span className="hero-info__description">
-          {el[1]}
+          {hero[el]}
         </span>
       </ListGroup.Item>
     );
   });
 
+
   if (editMode) {
     return (<Row>
-      <Button variant="outline-success"
-              onClick={toggleEditHandler}
-      >Save</Button>
+      <Col md={{span: 8, offset: 2}}>
+        <AddHeroForm {...{toggleEditHandler, hero}}/>
+      </Col>
     </Row>);
   }
+
   return (
     <Row>
       <Col xs={12} sm={6} md={4} className="hero-image">
         <Image
-          src={propshero.image}
+          src={`http://localhost:5000/${hero.images && hero.images[0]}`}
           thumbnail
           className='mb-2'
         />
@@ -67,7 +70,7 @@ export const HeroDetails = () => {
       </Col>
       <Col xs={12} sm={6} md={8}>
         <ListGroup variant="flush">
-          {mapHeroInfo(hero)}
+          {mapHeroInfo(heroModel)}
         </ListGroup>
       </Col>
     </Row>
