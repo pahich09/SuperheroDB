@@ -23,7 +23,7 @@ export const HeroState = ({children}) => {
       type: FETCH_DATA_START,
     });
     try {
-      const data = await httpHelper('/api');
+      const {data} = await httpHelper('/api');
       dispatch({
         type: FETCH_DATA_SUCCESS,
         payload: data
@@ -37,15 +37,16 @@ export const HeroState = ({children}) => {
     }
   };
 
-  const changeLoading = () => {
+  const toggleLoading = loading => {
     dispatch({
-      type: SET_LOADING
+      type: SET_LOADING,
+      payload: loading
     });
   };
 
   return (
     <HeroContext.Provider
-      value={{...state, fetchData, changeLoading}}>
+      value={{...state, fetchData, toggleLoading}}>
       {children}
     </HeroContext.Provider>
   );

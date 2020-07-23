@@ -12,7 +12,7 @@ export const httpHelper = async (url, method = 'GET', body = null, headers = {})
     if (!response.ok) {
       throw new Error(data.message || 'Something went wrong');
     }
-    return data;
+    return {data, message: response.message, error: response.error};
   } catch (e) {
     throw e;
   }

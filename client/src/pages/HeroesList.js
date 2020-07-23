@@ -3,6 +3,8 @@ import {Row} from 'react-bootstrap';
 import {HeroContext} from '../context';
 import {HeroItem} from '../components/HeroItem';
 import {HeroPagination} from '../components/HeroPagination';
+import {Loader} from '../components/Loader';
+
 
 export const HeroesList = () => {
   const {fetchData, heroes, loading} = useContext(HeroContext);
@@ -19,6 +21,10 @@ export const HeroesList = () => {
       <HeroItem key={_id} {...{nickname, _id, image: images[0]}}/>
     );
   });
+
+  if (loading) {
+    return <Loader/>;
+  }
 
   return (
     <>

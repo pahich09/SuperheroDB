@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Alert, Button, Form} from 'react-bootstrap';
+import {Alert, Button, Form, Spinner} from 'react-bootstrap';
 import {heroModel} from '../heroModel';
 import {httpHelper} from '../helpers/httpHelper';
+import {HeroContext} from '../context';
 
 
 export const AddHeroForm = ({hero, toggleEditHandler}) => {
@@ -10,6 +11,7 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
   const [files, setFiles] = useState([]);
   const [imageNames, setImageNames] = useState(hero.images || []);
   const [formData, setFormData] = useState(hero);
+  const [formLoading, setFormLoading] = useState(false);
 
   const setFormDataHandler = e => {
     setFormData({...formData, [e.target.name]: e.target.value});
@@ -29,18 +31,29 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setFormLoading(true);
     const data = new FormData(e.target);
     data.append('imageNames', JSON.stringify(imageNames));
 
-    if(!hero._id){
-      await httpHelper('/api/add', 'POST', data)
+    if (!hero._id) {
+      try {
+        await httpHelper('/api/add', 'POST', data);
+      } catch (e) {
+        console.log(e);
+      }
     } else {
-      await httpHelper(`/api/${hero._id}`, 'PUT', data)
+      try {
+        const {data: {message}} = await httpHelper(`/api/${hero._id}`, 'PUT', data);
+        console.log(message);
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     setFormData({});
     setFiles([]);
     toggleEditHandler();
+    setFormLoading(false);
   };
 
   const mapControls = data => data.map(el => {
@@ -104,7 +117,21 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
       <Button variant="success"
               type="submit"
       >
-        Save hero
+        {formLoading
+          ?
+          <>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+            &nbsp;Loading...
+          </>
+          : 'Save hero'
+        }
+
       </Button>
     </Form>
   );

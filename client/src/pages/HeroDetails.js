@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Col, Image, ListGroup, Row} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
 import {AddHeroForm} from '../components/AddHeroForm';
 import {heroModel} from '../heroModel';
 import {httpHelper} from '../helpers/httpHelper';
+import {HeroContext} from '../context';
+import {Loader} from '../components/Loader';
 
 
 export const HeroDetails = () => {
+
+  const {toggleLoading, loading} = useContext(HeroContext);
 
   const {id} = useParams();
   const [hero, setHero] = useState({});
@@ -19,8 +23,10 @@ export const HeroDetails = () => {
 
   useEffect(() => {
     async function fetch() {
-      const response = await httpHelper(`/api/hero/${id}`);
-      setHero(response);
+      toggleLoading(true);
+      const {data} = await httpHelper(`/api/hero/${id}`);
+      setHero(data);
+      toggleLoading(false);
     }
 
     fetch();
@@ -52,6 +58,10 @@ export const HeroDetails = () => {
         <AddHeroForm {...{toggleEditHandler, hero}}/>
       </Col>
     </Row>);
+  }
+
+  if (loading) {
+    return <Loader/>;
   }
 
   return (

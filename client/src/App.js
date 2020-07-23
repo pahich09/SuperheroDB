@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Container} from 'react-bootstrap';
 
@@ -8,8 +8,12 @@ import {CreateHero} from './pages/CreateHero';
 import {PageNotFound} from './pages/PageNotFound';
 import {NavBar} from './components/NavBar';
 import './styles/index.scss';
+import {Loader} from './components/Loader';
+import {HeroContext} from './context';
 
 const App = () => {
+
+
   return (
     <Router>
       <NavBar/>

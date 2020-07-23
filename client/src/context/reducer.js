@@ -28,7 +28,7 @@ export const HeroReducer = (state, {type, payload}) => {
     case SET_LOADING:
       return {
         ...state,
-        loading: true,
+        loading: payload,
       };
     default:
       return {
