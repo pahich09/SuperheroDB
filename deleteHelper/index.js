@@ -6,9 +6,15 @@ const deleteImage = (images) => {
     images.forEach(item => {
       const imagePath = path.join(__dirname, '../public/images/', item);
       try {
-        fs.unlink(imagePath, (err) => {
-          if (err) throw err;
-          console.log(`${item} was deleted`);
+        fs.access(imagePath, err => {
+          if (err) {
+            console.log(err);
+          } else {
+            fs.unlink(imagePath, (err) => {
+              if (err) throw err;
+              console.log(`${item} was deleted`);
+            });
+          }
         });
       } catch (e) {
         console.log(e);
