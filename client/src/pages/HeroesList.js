@@ -1,15 +1,15 @@
 import React, {useCallback, useContext, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import {Jumbotron, Row} from 'react-bootstrap';
 import {HeroContext} from '../context';
 import {HeroItem} from '../components/HeroItem';
 import {HeroPagination} from '../components/HeroPagination';
 import {Loader} from '../components/Loader';
-import {Link} from 'react-router-dom';
 
 
 export const HeroesList = () => {
-  const {fetchData, heroes, loading, pages, activePage, setActivePage} = useContext(HeroContext);
 
+  const {fetchData, heroes, loading, pages, activePage, setActivePage} = useContext(HeroContext);
   const fetch = useCallback(fetchData, []);
 
   useEffect(() => {
@@ -45,9 +45,12 @@ export const HeroesList = () => {
       <Row className="justify-content-center">
         {!!heroes.length && mapHeroItem(heroes)}
       </Row>
-      <Row className="pagination-wrap">
-        <HeroPagination {...{pages, activePage, setActivePage}}/>
-      </Row>
+      {
+        pages > 1 &&
+        <Row className="pagination-wrap">
+          <HeroPagination {...{pages, activePage, setActivePage}}/>
+        </Row>
+      }
     </>
   );
 };

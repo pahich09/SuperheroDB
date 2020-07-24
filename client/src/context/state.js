@@ -3,7 +3,8 @@ import {HeroContext} from './index';
 import {
   FETCH_DATA_ERROR,
   FETCH_DATA_START,
-  FETCH_DATA_SUCCESS, SET_ACTIVE_PAGE,
+  FETCH_DATA_SUCCESS,
+  SET_ACTIVE_PAGE,
   SET_LOADING,
 } from './actionTypes';
 import {HeroReducer} from './reducer';
@@ -21,6 +22,10 @@ export const HeroState = ({children}) => {
   const [state, dispatch] = useReducer(HeroReducer, initialState);
 
   const fetchData = async (page = 1) => {
+    dispatch({
+      type: SET_ACTIVE_PAGE,
+      payload: page
+    });
     dispatch({
       type: FETCH_DATA_START,
     });

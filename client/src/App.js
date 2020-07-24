@@ -26,9 +26,7 @@ const App = () => {
                 <Route path='/' exact component={HeroesList}/>
                 <Route path='/hero/:id' component={HeroDetails}/>
                 <Route path='/create' component={CreateHero}/>
-                <Route>
-                  <ErrorPage/>
-                </Route>
+                <Route component={ErrorPage}/>
               </Switch>)
         }
       </Container>

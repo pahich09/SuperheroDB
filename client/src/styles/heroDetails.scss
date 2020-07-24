@@ -14,10 +14,12 @@
     text-transform: uppercase;
     font-weight: 700;
     width: 30%;
+
   }
 
   &__description {
     width: 67%;
+    padding-left: 10px;
   }
 
   @media (max-width: 767px) {

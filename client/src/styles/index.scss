@@ -4,7 +4,6 @@
 @import "heroCard";
 @import "pagination";
 @import "heroDetails";
-@import "createHero";
 
 img {
   max-width: 100%;
@@ -46,3 +45,11 @@ img {
   margin-bottom: 10px;
 }
 
+.create-title{
+  text-align: center;
+}
+.delete-icon{
+  color: #f30808;
+  margin-left: 5px;
+  cursor: pointer;
+}

@@ -1,4 +1,7 @@
-export const httpHelper = async (url, method = 'GET', body = null, headers = {}) => {
+export const httpHelper = async (url,
+                                 method = 'GET',
+                                 body = null,
+                                 headers = {}) => {
   try {
     const response = await fetch(url, {
       method, body, headers

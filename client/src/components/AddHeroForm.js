@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {Alert, Button, Form, Spinner} from 'react-bootstrap';
 import {heroModel} from '../heroModel';
 import {httpHelper} from '../helpers/httpHelper';
 import {FormImages} from './FormImages';
+import {HeroContext} from '../context';
 
 
 export const AddHeroForm = ({hero, toggleEditHandler}) => {
 
+  const {setActivePage} = useContext(HeroContext);
   const history = useHistory();
   const [files, setFiles] = useState([]);
   const [imageNames, setImageNames] = useState(hero.images || []);
@@ -45,6 +47,7 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
         setFormData({});
         setFiles([]);
         setFormMessage({success: message});
+        setActivePage(1);
         setTimeout(() => {
           history.push('/');
         }, 1000);
@@ -133,7 +136,6 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
           </>
           : 'Save hero'
         }
-
       </Button>
     </Form>
   );

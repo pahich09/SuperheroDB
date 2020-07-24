@@ -11,7 +11,7 @@ export const CreateHero = () => {
         </Col>
       </Row>
       <Row>
-        <Col md={{ span: 8, offset: 2 }}>
+        <Col md={{span: 8, offset: 2}}>
           <AddHeroForm/>
         </Col>
       </Row>

@@ -11,7 +11,7 @@ import {ImageCarousel} from '../components/ImageCarousel';
 
 export const HeroDetails = () => {
 
-  const {toggleLoading, loading, setError} = useContext(HeroContext);
+  const {toggleLoading, loading, setError, setActivePage} = useContext(HeroContext);
   const history = useHistory();
   const {id} = useParams();
   const [hero, setHero] = useState({});
@@ -25,6 +25,7 @@ export const HeroDetails = () => {
     try {
       await httpHelper(`/api/${id}`, 'DELETE');
       history.push('/');
+      setActivePage(1);
     } catch (e) {
       console.log(e.message);
       setError(e.message);
