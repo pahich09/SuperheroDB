@@ -12,7 +12,9 @@ export const HeroItem = ({image, nickname, _id}) => {
                   src={`http://localhost:5000/${image}`}/>
         <Card.Body>
           <Card.Title className="text-center">
-            <Link to={`/hero/${_id}`}>
+            <Link to={`/hero/${_id}`}
+                  className="text-warning"
+            >
               {nickname}
             </Link>
           </Card.Title>

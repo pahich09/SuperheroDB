@@ -28,7 +28,7 @@ export const HeroesList = () => {
 
   return (
     <>
-      <Row>
+      <Row className="justify-content-center">
         {!!heroes.length && mapHeroItem(heroes)}
       </Row>
       <Row className="pagination-wrap">

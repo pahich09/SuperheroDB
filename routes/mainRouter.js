@@ -1,14 +1,15 @@
 const {Router} = require('express');
+const config = require('config');
 const Hero = require('../models/Hero.model');
 
 const router = Router();
 
 router.get('/:page', async (req, res) => {
   try {
-    console.log(req.params.page);
-
-    const heroList = await Hero.find().limit(5);
-    const pages = Math.ceil(await Hero.countDocuments() / 5);
+    const {page} = req.params;
+    const limit = config.get('pageLimit');
+    const heroList = await Hero.find().limit(limit).skip((page - 1) * limit);
+    const pages = Math.ceil(await Hero.countDocuments() / limit);
     res.json({heroList, pages});
   } catch (e) {
     console.log(e);
@@ -20,7 +21,7 @@ router.get('/:page', async (req, res) => {
 router.get('/hero/:id', async (req, res) => {
   try {
     const hero = await Hero.findOne({_id: req.params.id});
-    res.send(hero);
+    res.json(hero);
   } catch (e) {
     console.log(e);
     res.status(500).json({message: 'Server error'});
@@ -66,7 +67,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     await Hero.deleteOne({_id: req.params.id});
-    res.send({message: 'hero deleted'});
+    res.json({message: 'hero deleted'});
   } catch (e) {
     console.log(e);
     res.status(500).json({message: 'Server error'});

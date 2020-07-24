@@ -85,10 +85,10 @@ export const HeroDetails = () => {
   return (
     <>
       <Row>
-        <Col xs={12} sm={6} md={4} className="hero-image">
+        <Col xs={12} sm={6} md={5} className="hero-image">
           <ImageCarousel urlArr={hero.images}/>
         </Col>
-        <Col xs={12} sm={6} md={8}>
+        <Col xs={12} sm={6} md={7}>
           <ListGroup variant="flush">
             {mapHeroInfo(heroModel)}
           </ListGroup>
@@ -107,7 +107,7 @@ export const HeroDetails = () => {
                 variant="outline-danger"
                 onClick={deleteHandler}
               >
-                Delete profile
+                Delete
               </Button>
             </Col>
           </Row>
