@@ -3,10 +3,13 @@ const Hero = require('../models/Hero.model');
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/:page', async (req, res) => {
   try {
-    const heroList = await Hero.find().limit();
-    res.send(heroList);
+    console.log(req.params.page);
+
+    const heroList = await Hero.find().limit(5);
+    const pages = Math.ceil(await Hero.countDocuments() / 5);
+    res.json({heroList, pages});
   } catch (e) {
     console.log(e);
     res.status(500).json({message: 'Server error'});

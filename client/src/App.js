@@ -2,14 +2,13 @@ import React, {useContext} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Container} from 'react-bootstrap';
 
+import {HeroContext} from './context';
 import {HeroesList} from './pages/HeroesList';
 import {HeroDetails} from './pages/HeroDetails';
 import {CreateHero} from './pages/CreateHero';
 import {ErrorPage} from './pages/ErrorPage';
 import {NavBar} from './components/NavBar';
 import './styles/index.scss';
-import {Loader} from './components/Loader';
-import {HeroContext} from './context';
 
 const App = () => {
   const {error, setError} = useContext(HeroContext);

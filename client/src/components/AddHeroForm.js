@@ -14,10 +14,11 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
   const [imageNames, setImageNames] = useState(hero.images || []);
   const [formData, setFormData] = useState(hero);
   const [formLoading, setFormLoading] = useState(false);
-  const [formError, setFormError] = useState(null);
+  const [formMessage, setFormMessage] = useState(null);
 
   const setFormDataHandler = e => {
     setFormData({...formData, [e.target.name]: e.target.value});
+    setFormMessage(null);
   };
 
   const setFilesHandler = e => {
@@ -40,21 +41,25 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
 
     if (!hero._id) {
       try {
-        await httpHelper('/api/add', 'POST', data);
+        const {data: {message}} = await httpHelper('/api/add', 'POST', data);
         setFormData({});
         setFiles([]);
-        history.push('/');
+        setFormMessage({success: message});
+        setTimeout(() => {
+          history.push('/');
+        }, 1500);
       } catch (e) {
         console.log(e.message);
+        setFormMessage({error: e.message});
       }
     } else {
       try {
         const {data: {message}} = await httpHelper(`/api/${hero._id}`, 'PUT', data);
-        toggleEditHandler();
-        console.log(message);
+        setFormMessage({success: message});
+        setTimeout(toggleEditHandler, 1500);
       } catch (e) {
         console.log(e.message);
-        setFormError(e.message);
+        setFormMessage({error: e.message});
       }
     }
     setFormLoading(false);
@@ -62,7 +67,6 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
 
   const mapControls = data => data.map(el => {
     const item = el.replace(/_/g, ' ');
-
     return (
       <Form.Group key={el}>
         <Form.Label htmlFor={el}>{item.toUpperCase()}</Form.Label>
@@ -98,6 +102,12 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
 
   return (
     <Form onSubmit={handleSubmit}>
+
+      {formMessage &&
+      <Alert variant={formMessage.error ? 'danger' : 'success'}>
+        {formMessage.error || formMessage.success}
+      </Alert>}
+
       {mapControls(heroModel)}
 
       {

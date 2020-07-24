@@ -7,7 +7,7 @@ import {Loader} from '../components/Loader';
 
 
 export const HeroesList = () => {
-  const {fetchData, heroes, loading} = useContext(HeroContext);
+  const {fetchData, heroes, loading, pages, activePage, setActivePage} = useContext(HeroContext);
 
   const fetch = useCallback(fetchData, []);
 
@@ -32,7 +32,7 @@ export const HeroesList = () => {
         {!!heroes.length && mapHeroItem(heroes)}
       </Row>
       <Row className="pagination-wrap">
-        <HeroPagination/>
+        <HeroPagination {...{pages, activePage, setActivePage}}/>
       </Row>
     </>
   );

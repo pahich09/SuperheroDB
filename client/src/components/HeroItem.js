@@ -25,7 +25,7 @@ export const HeroItem = ({image, nickname, _id}) => {
 HeroItem.propTypes = {
   nickname: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  id: PropTypes.any.isRequired,
+  _id: PropTypes.any.isRequired,
 };
 HeroItem.defaultProps = {
   image: 'profile.png'

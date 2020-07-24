@@ -1,7 +1,7 @@
 import {
   FETCH_DATA_ERROR,
   FETCH_DATA_START,
-  FETCH_DATA_SUCCESS,
+  FETCH_DATA_SUCCESS, SET_ACTIVE_PAGE,
   SET_LOADING,
 } from './actionTypes';
 
@@ -14,7 +14,8 @@ export const HeroReducer = (state, {type, payload}) => {
     case FETCH_DATA_SUCCESS:
       return {
         ...state,
-        heroes: payload,
+        heroes: payload.heroList,
+        pages: payload.pages,
         loading: false,
         error: false,
       };
@@ -30,6 +31,13 @@ export const HeroReducer = (state, {type, payload}) => {
         ...state,
         loading: payload,
       };
+
+    case SET_ACTIVE_PAGE:
+      return {
+        ...state,
+        activePage: payload
+      };
+
     default:
       return {
         ...state

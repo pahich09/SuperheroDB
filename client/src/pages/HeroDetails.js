@@ -81,6 +81,7 @@ export const HeroDetails = () => {
   if (loading) {
     return <Loader/>;
   }
+
   return (
     <>
       <Row>
@@ -112,7 +113,6 @@ export const HeroDetails = () => {
           </Row>
         </Col>
       </Row>
-
     </>
   );
 };
