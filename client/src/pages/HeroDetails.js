@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Col, Image, ListGroup, Row} from 'react-bootstrap';
-import {useParams, useHistory} from 'react-router-dom';
+import {Button, Col, ListGroup, Row} from 'react-bootstrap';
+import {useHistory, useParams} from 'react-router-dom';
 import {AddHeroForm} from '../components/AddHeroForm';
 import {heroModel} from '../heroModel';
 import {httpHelper} from '../helpers/httpHelper';
@@ -42,7 +42,6 @@ export const HeroDetails = () => {
       } catch (e) {
         console.log(e.message);
         setError(e.message);
-        // history.push('/error');
       }
       toggleLoading(false);
     }
@@ -82,7 +81,6 @@ export const HeroDetails = () => {
   if (loading) {
     return <Loader/>;
   }
-
   return (
     <>
       <Row>
@@ -93,20 +91,25 @@ export const HeroDetails = () => {
           <ListGroup variant="flush">
             {mapHeroInfo(heroModel)}
           </ListGroup>
-          <Button
-            variant="outline-secondary"
-            className="hero-edit"
-            onClick={toggleEditHandler}
-          >
-            Edit profile
-          </Button>
-          <Button
-            variant="outline-danger"
-            className="ml-3"
-            onClick={deleteHandler}
-          >
-            Delete profile
-          </Button>
+          <Row className="mt-4">
+            <Col>
+              <Button
+                variant="outline-secondary"
+                className="hero-edit"
+                onClick={toggleEditHandler}
+              >
+                Edit profile
+              </Button>
+            </Col>
+            <Col className="d-flex justify-content-end">
+              <Button
+                variant="outline-danger"
+                onClick={deleteHandler}
+              >
+                Delete profile
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
 

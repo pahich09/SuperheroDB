@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import {Carousel} from 'react-bootstrap';
 
 export const ImageCarousel = ({urlArr}) => {
+  const urlList = urlArr.length ? urlArr : ['profile.png'];
   return (
     <Carousel className="image-carousel">
-      {urlArr.map(url => {
+      {urlList.map(url => {
         return (
           <Carousel.Item key={url}>
             <img
@@ -24,5 +25,5 @@ ImageCarousel.propTypes = {
 };
 
 ImageCarousel.defaultProps = {
-  urlArr: ['profile.png']
+  urlArr: []
 };

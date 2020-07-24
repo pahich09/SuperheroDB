@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {Alert, Button, Form, Spinner} from 'react-bootstrap';
 import {heroModel} from '../heroModel';
 import {httpHelper} from '../helpers/httpHelper';
+import {FormImages} from './FormImages';
 
 
 export const AddHeroForm = ({hero, toggleEditHandler}) => {
@@ -100,21 +101,9 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
       {mapControls(heroModel)}
 
       {
-        (!!imageNames.length || !!files.length) && (
-          <Alert variant="success">
-            {[...imageNames, ...files].map((el, i) => (
-              <div key={i.toString()}>
-                {el.name || el}
-                <span
-                  className="delete-icon"
-                  onClick={() => removeImageHandler(el)}
-                >
-                &times;
-                </span>
-              </div>
-            ))}
-          </Alert>
-        )
+        (!!imageNames.length || !!files.length)
+        && <FormImages {...{imageNames, files, removeImageHandler}}/>
+
       }
 
       <Button variant="success"

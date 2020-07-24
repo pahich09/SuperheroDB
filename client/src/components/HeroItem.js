@@ -28,7 +28,5 @@ HeroItem.propTypes = {
   id: PropTypes.any.isRequired,
 };
 HeroItem.defaultProps = {
-  id: 1,
-  nickname: 'Clark',
-  image: 'https://upload.wikimedia.org/wikipedia/en/3/35/Supermanflying.png'
+  image: 'profile.png'
 };
