@@ -47,7 +47,7 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
         setFormMessage({success: message});
         setTimeout(() => {
           history.push('/');
-        }, 1500);
+        }, 1000);
       } catch (e) {
         console.log(e.message);
         setFormMessage({error: e.message});
@@ -56,7 +56,7 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
       try {
         const {data: {message}} = await httpHelper(`/api/${hero._id}`, 'PUT', data);
         setFormMessage({success: message});
-        setTimeout(toggleEditHandler, 1500);
+        setTimeout(toggleEditHandler, 1000);
       } catch (e) {
         console.log(e.message);
         setFormMessage({error: e.message});

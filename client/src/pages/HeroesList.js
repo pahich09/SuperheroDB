@@ -1,9 +1,10 @@
 import React, {useCallback, useContext, useEffect} from 'react';
-import {Row} from 'react-bootstrap';
+import {Jumbotron, Row} from 'react-bootstrap';
 import {HeroContext} from '../context';
 import {HeroItem} from '../components/HeroItem';
 import {HeroPagination} from '../components/HeroPagination';
 import {Loader} from '../components/Loader';
+import {Link} from 'react-router-dom';
 
 
 export const HeroesList = () => {
@@ -24,6 +25,19 @@ export const HeroesList = () => {
 
   if (loading) {
     return <Loader/>;
+  }
+
+  if (!heroes.length) {
+    return (
+      <Jumbotron className="text-center">
+        <h2 className="mb-3">Superhero not found</h2>
+        <Link variant="primary"
+              to="/create"
+        >
+          Add new hero
+        </Link>
+      </Jumbotron>
+    );
   }
 
   return (

@@ -1,6 +1,7 @@
 const {Router} = require('express');
 const config = require('config');
 const Hero = require('../models/Hero.model');
+const deleteImage = require('../deleteHelper');
 
 const router = Router();
 
@@ -51,12 +52,15 @@ router.post('/add', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const images = req.files.map(el => el.filename);
+    const imageUrl = JSON.parse(req.body.imageNames)
 
-    await Hero.findOneAndUpdate({_id: req.params.id},
-      {...req.body, images: [...JSON.parse(req.body.imageNames), ...images]});
+    const response = await Hero.findOneAndUpdate({_id: req.params.id},
+      {...req.body, images: [...imageUrl, ...images]});
+
+    const imageToDelete = response.images.filter(img=>!imageUrl.includes(img))
+    deleteImage(imageToDelete);
 
     res.json({message: 'Superhero was updated'});
-
   } catch (e) {
     console.log(e);
     res.status(500).json({message: 'Server error'});
@@ -66,7 +70,10 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    await Hero.deleteOne({_id: req.params.id});
+    const response = await Hero.findOneAndDelete({_id: req.params.id});
+
+    deleteImage(response.images);
+
     res.json({message: 'hero deleted'});
   } catch (e) {
     console.log(e);
