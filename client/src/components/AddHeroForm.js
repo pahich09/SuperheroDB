@@ -13,6 +13,7 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
   const [imageNames, setImageNames] = useState(hero.images || []);
   const [formData, setFormData] = useState(hero);
   const [formLoading, setFormLoading] = useState(false);
+  const [formError, setFormError] = useState(null);
 
   const setFormDataHandler = e => {
     setFormData({...formData, [e.target.name]: e.target.value});
@@ -43,7 +44,7 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
         setFiles([]);
         history.push('/');
       } catch (e) {
-        console.log(e);
+        console.log(e.message);
       }
     } else {
       try {
@@ -51,7 +52,8 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
         toggleEditHandler();
         console.log(message);
       } catch (e) {
-        console.log(e);
+        console.log(e.message);
+        setFormError(e.message);
       }
     }
     setFormLoading(false);
@@ -86,7 +88,7 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
                         value={formData[el] || ''}
                         onChange={setFormDataHandler}
                         placeholder={`Enter ${item}`}
-
+                        required
           />
         }
       </Form.Group>

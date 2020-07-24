@@ -36,9 +36,13 @@ router.post('/add', async (req, res) => {
 
   } catch (e) {
     console.log(e);
-    res.status(500).json({message: 'Server error'});
+    const isDuplicate = e.message.includes('duplicate');
+    res.status(500).json({
+      message: isDuplicate ? `Hero ${req.body.nickname} exists` : 'Server error'
+    });
   }
 });
+
 
 router.put('/:id', async (req, res) => {
   try {
@@ -54,6 +58,7 @@ router.put('/:id', async (req, res) => {
     res.status(500).json({message: 'Server error'});
   }
 });
+
 
 router.delete('/:id', async (req, res) => {
   try {

@@ -6,6 +6,7 @@ import {heroModel} from '../heroModel';
 import {httpHelper} from '../helpers/httpHelper';
 import {HeroContext} from '../context';
 import {Loader} from '../components/Loader';
+import {ImageCarousel} from '../components/ImageCarousel';
 
 
 export const HeroDetails = () => {
@@ -86,11 +87,7 @@ export const HeroDetails = () => {
     <>
       <Row>
         <Col xs={12} sm={6} md={4} className="hero-image">
-          <Image
-            src={`http://localhost:5000/${hero.images && hero.images[0]}`}
-            thumbnail
-            className='mb-2'
-          />
+          <ImageCarousel urlArr={hero.images}/>
         </Col>
         <Col xs={12} sm={6} md={8}>
           <ListGroup variant="flush">
