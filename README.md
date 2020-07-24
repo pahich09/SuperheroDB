@@ -1,5 +1,5 @@
 
-###Clone
+### Clone
 Clone this repo to your local machine using 
 `https://github.com/pahich09/SuperheroDB.git`
 
