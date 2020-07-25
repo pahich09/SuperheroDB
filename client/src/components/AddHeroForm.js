@@ -44,8 +44,6 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
     if (!hero._id) {
       try {
         const {data: {message}} = await httpHelper('/api/add', 'POST', data);
-        setFormData({});
-        setFiles([]);
         setFormMessage({success: message});
         setActivePage(1);
         setTimeout(() => {
@@ -97,6 +95,7 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
                         onChange={setFormDataHandler}
                         placeholder={`Enter ${item}`}
                         required
+                        as={el === 'nickname' || el === 'real_name' ? 'input' : 'textarea'}
           />
         }
       </Form.Group>
@@ -116,7 +115,6 @@ export const AddHeroForm = ({hero, toggleEditHandler}) => {
       {
         (!!imageNames.length || !!files.length)
         && <FormImages {...{imageNames, files, removeImageHandler}}/>
-
       }
 
       <Button variant="success"

@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const config = require('config');
 const Hero = require('../models/Hero.model');
-const deleteImage = require('../Utils/deleteHelper');
+const deleteImage = require('../utils/deleteHelper');
 
 const router = Router();
 
