@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {Alert, Button, Form, Spinner} from 'react-bootstrap';
-import {heroModel} from '../heroModel';
+import {heroModel} from '../helpers/heroModel';
 import {httpHelper} from '../helpers/httpHelper';
 import {FormImages} from './FormImages';
 import {HeroContext} from '../context';
