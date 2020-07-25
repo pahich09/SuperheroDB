@@ -56,10 +56,6 @@ export const HeroState = ({children}) => {
   };
 
   const setActivePage = async page => {
-    dispatch({
-      type: SET_ACTIVE_PAGE,
-      payload: page
-    });
     try {
       await fetchData(page);
     } catch (e) {
